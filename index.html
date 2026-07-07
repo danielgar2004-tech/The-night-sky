@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Esa primera vez… — The Night Sky · Cusco, Perú</title>
+<meta name="description" content="Un cielo estrellado inmersivo en 3D: Cusco, Perú, 16 de septiembre de 2025, 22:00. La misma toma del póster The Night Sky.">
+<meta name="theme-color" content="#10141f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%2310141f'/><circle cx='38' cy='40' r='3' fill='white'/><circle cx='62' cy='34' r='2' fill='white'/><circle cx='55' cy='58' r='2.5' fill='white'/><circle cx='40' cy='66' r='1.6' fill='white'/><circle cx='68' cy='62' r='1.4' fill='white'/></svg>">
+</head>
+<body>
+
+<!-- ══════════ INTRO ══════════ -->
+<div id="intro" role="dialog" aria-label="Introducción">
+  <div class="intro-frame">
+    <div class="intro-stars" aria-hidden="true"></div>
+    <p class="intro-kicker">The Night Sky</p>
+    <h1 class="intro-title">Esa primera<br><em>vez…</em></h1>
+    <div class="intro-rule" aria-hidden="true"></div>
+    <p class="intro-meta">
+      CUSCO, PERÚ<br>
+      16 DE SEPTIEMBRE DE 2025 · 22:00<br>
+      13.5320° S&nbsp;&nbsp;71.9675° W
+    </p>
+    <button id="enterBtn" class="btn-primary">Entrar al cielo</button>
+    <p class="intro-hint">Arrastra para mirar · pellizca o usa la rueda para acercarte</p>
+  </div>
+</div>
+
+<!-- ══════════ ESCENA 3D ══════════ -->
+<canvas id="sky" aria-label="Cielo estrellado interactivo de Cusco, 16 de septiembre de 2025"></canvas>
+<div id="labels" aria-hidden="true"></div>
+
+<!-- ══════════ UI SUPERIOR ══════════ -->
+<header id="topbar" class="ui hidden">
+  <div class="brand">
+    <span class="brand-title">Esa primera vez…</span>
+    <span class="brand-sub">Cusco · 16 SEP 2025 · 22:00</span>
+  </div>
+  <div class="top-actions">
+    <button id="bookletBtn" class="chip" aria-label="Abrir el cuaderno de constelaciones">Cuaderno</button>
+    <button id="helpBtn" class="chip icon" aria-label="Ayuda">?</button>
+  </div>
+</header>
+
+<!-- Brújula -->
+<div id="compass" class="ui hidden" aria-hidden="true"><span id="compassDir">S</span></div>
+
+<!-- ══════════ PANEL DE CONSTELACIÓN ══════════ -->
+<aside id="panel" class="ui hidden" role="dialog" aria-labelledby="panelTitle">
+  <button class="panel-close" id="panelClose" aria-label="Cerrar panel">×</button>
+  <p class="panel-kicker" id="panelKicker">Constelación</p>
+  <h2 id="panelTitle">—</h2>
+  <p class="panel-sub" id="panelSub"></p>
+  <div class="panel-body" id="panelBody"></div>
+</aside>
+
+<!-- ══════════ CUADERNO ══════════ -->
+<aside id="booklet" class="ui hidden" role="dialog" aria-label="Cuaderno de constelaciones">
+  <button class="panel-close" id="bookletClose" aria-label="Cerrar cuaderno">×</button>
+  <p class="panel-kicker">The Night Sky</p>
+  <h2>Cuaderno de<br>constelaciones</h2>
+  <p class="panel-sub">Los nueve capítulos del cielo austral</p>
+  <ul id="bookletList" class="booklet-list"></ul>
+</aside>
+
+<!-- ══════════ AYUDA ══════════ -->
+<aside id="help" class="ui hidden" role="dialog" aria-label="Ayuda">
+  <button class="panel-close" id="helpClose" aria-label="Cerrar ayuda">×</button>
+  <p class="panel-kicker">Cómo explorar</p>
+  <h2>Guía rápida</h2>
+  <div class="panel-body">
+    <p><strong>Mirar alrededor</strong> — arrastra con el dedo o el ratón. La brújula indica hacia dónde miras.</p>
+    <p><strong>Acercar</strong> — pellizca en el móvil o usa la rueda del ratón.</p>
+    <p><strong>Constelaciones</strong> — toca cualquier línea dorada o blanca para conocer su historia.</p>
+    <p><strong>Tour guiado</strong> — el botón inferior derecho recorre los tesoros de esta noche, paso a paso.</p>
+    <p class="fine">Cada estrella está calculada astronómicamente para Cusco el 16 de septiembre de 2025 a las 22:00 — la misma toma del cuadro.</p>
+  </div>
+</aside>
+
+<!-- ══════════ TOUR ══════════ -->
+<button id="tourBtn" class="ui hidden btn-tour" aria-label="Iniciar tour guiado">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l2.4 6.9L21 11l-6.6 2.1L12 20l-2.4-6.9L3 11l6.6-2.1L12 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  <span>Tour guiado</span>
+</button>
+
+<div id="tourPanel" class="ui hidden" role="dialog" aria-label="Tour guiado">
+  <div class="tour-progress" id="tourProgress"></div>
+  <p class="panel-kicker" id="tourStep">1 / 10</p>
+  <h3 id="tourTitle">—</h3>
+  <p id="tourText"></p>
+  <div class="tour-nav">
+    <button id="tourPrev" class="chip" aria-label="Anterior">‹ Anterior</button>
+    <button id="tourExit" class="chip ghost" aria-label="Salir del tour">Salir</button>
+    <button id="tourNext" class="btn-primary small" aria-label="Siguiente">Siguiente ›</button>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
