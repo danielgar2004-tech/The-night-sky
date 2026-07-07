@@ -36,18 +36,28 @@ html,body{height:100%;overflow:hidden;background:var(--ink);color:var(--star);
   color:rgba(238,242,255,.5)}
 
 /* ── INTRO ─────────────────────────────────────────────── */
-#intro{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
+#intro{position:fixed;inset:0;z-index:60;display:flex;
   background:radial-gradient(120% 120% at 50% 35%, #1a2236 0%, var(--ink) 55%, #0a0d15 100%);
-  transition:opacity 1.2s ease,visibility 1.2s;overflow-y:auto}
+  transition:opacity 1.2s ease,visibility 1.2s;overflow-y:auto;padding:28px 0}
 #intro.away{opacity:0;visibility:hidden;pointer-events:none}
-.intro-frame{position:relative;text-align:center;padding:56px 28px;max-width:560px;width:calc(100% - 48px);
-  border:1px solid rgba(238,242,255,.22);margin:24px 0}
+.intro-frame{position:relative;text-align:center;padding:48px 30px;max-width:560px;width:calc(100% - 48px);
+  border:1px solid rgba(238,242,255,.22);margin:auto}
+@media (max-height:1000px){
+  .intro-frame{padding:38px 26px}
+  .intro-title{font-size:clamp(46px,8.5vh,74px);margin:16px 0 20px}
+  .intro-quote{font-size:clamp(14.5px,2vh,17px);line-height:1.72;margin-bottom:22px}
+  .intro-rule{margin-bottom:20px}
+  .intro-meta{line-height:1.95}
+  #enterBtn{margin-top:26px}
+  .intro-hint{margin-top:16px}
+}
 @media (max-height:760px){
-  .intro-frame{padding:34px 22px}
-  .intro-title{font-size:clamp(42px,9vw,64px);margin:14px 0 18px}
-  .intro-quote{margin-bottom:18px;line-height:1.65}
-  .intro-rule{margin-bottom:18px}
-  #enterBtn{margin-top:22px}
+  .intro-frame{padding:30px 22px}
+  .intro-title{font-size:clamp(40px,7.5vh,58px);margin:12px 0 16px}
+  .intro-quote{margin-bottom:16px;line-height:1.6}
+  .intro-rule{margin-bottom:16px}
+  #enterBtn{margin-top:20px;padding:14px 28px}
+  .intro-hint{margin-top:12px}
 }
 .intro-frame::after{content:"";position:absolute;inset:7px;border:1px solid rgba(238,242,255,.1);pointer-events:none}
 .intro-stars{position:absolute;inset:0;overflow:hidden}

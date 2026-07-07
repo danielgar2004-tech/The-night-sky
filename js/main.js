@@ -244,6 +244,22 @@ canvas.addEventListener("wheel", (e) => {
   applyCam();
 }, { passive: false });
 
+/* ── teclado: ↑ / + acerca · ↓ / − aleja · ← → giran ── */
+let entered = false;
+addEventListener("keydown", (e) => {
+  if (!entered) return;
+  if (![panel, booklet, help].every(p => p.classList.contains("hidden"))) return; // no interferir con paneles
+  const zoomStep = 3.2, panStep = 4 * view.fov / 62;
+  switch (e.key) {
+    case "ArrowUp": case "+": case "=": view.fov = Math.max(26, view.fov - zoomStep); break;
+    case "ArrowDown": case "-": case "_": view.fov = Math.min(95, view.fov + zoomStep); break;
+    case "ArrowLeft": view.yaw -= panStep; break;
+    case "ArrowRight": view.yaw += panStep; break;
+    default: return;
+  }
+  e.preventDefault(); fly = null; applyCam();
+});
+
 /* ═══════════ SELECCIÓN DE CONSTELACIONES ═══════════ */
 const conVecs = SKYDATA.cons.map(c => ({
   c, pts: c.seg.flat().map(p => vecFrom(p[0], p[1]).normalize())
@@ -415,6 +431,7 @@ function endTour() { tourPanel.classList.add("hidden"); tourBtn.classList.remove
   }
 }
 $("enterBtn").onclick = () => {
+  entered = true;
   $("intro").classList.add("away");
   ["topbar", "compass", "tourBtn"].forEach(id => $(id).classList.remove("hidden"));
   flyTo(184, 38, 62, 3400); // panorámica inicial hacia el sur
